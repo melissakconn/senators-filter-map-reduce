@@ -2,6 +2,12 @@ import React from 'react'
 import SenData from './senators.json'
 
 export default class main extends React.Component {
+    constructor(props){
+        super(props)
+        this.state=({
+            filteredList: SenData
+        })
+    }
     render() {
 
         let FilterRepublicans = () => {
@@ -9,7 +15,7 @@ export default class main extends React.Component {
             console.log("All Records: ", SenData);
 
             // console.log(SenData[42])
-            // console.log(SenData[42].party)
+            // console.log(SenData[42].party)git
             // console.log(SenData[42].party  === "Republican" )
 
             const RepSen = SenData.filter((politician) => {
@@ -17,6 +23,7 @@ export default class main extends React.Component {
             })
 
             console.log(RepSen)
+            this.setState({filteredList: RepSen })
         }
 
         let FilterDemocrats = () => {
@@ -25,14 +32,15 @@ export default class main extends React.Component {
             })
 
             console.log(DemSen)
+            this.setState({filteredList: DemSen })
         }
 
         let FilterUtahSenators = () => {
-            const UtahSen = SenData.filter((politician) => {
-                return politician.state === "UT"
-            })
-
+            const UtahSen = SenData.filter((politician) => {return politician.state === "UT"}
+            )
+            UtahSen.map( senator => {})
             console.log(UtahSen)
+            this.setState({filteredList: UtahSen })
             }
 
         let FilterUtahSenior = () => {
@@ -40,7 +48,9 @@ export default class main extends React.Component {
                 return politician.description === "Senior Senator from Utah"
             })
 
-            console.log(Senior)
+            console.log(Senior[0].person.firstname)
+            this.setState({filteredList: Senior })
+            // this.setState({filteredList: (Senior[0].person.firstname + '' + Senior[0].person.lastname)})
         }
 
         return (
@@ -60,9 +70,10 @@ export default class main extends React.Component {
 
                 <button onClick={FilterUtahSenior} > Utah Senior Senator </button>
                 <br/><br/>
-
-
-
+                <div>
+                    {this.state.filteredList.map((senator) => <h2>{senator.person.name}</h2>)}
+                    {/*{SenData.map((senator) => <h2>{senator.person.name}</h2>)}*/}
+                </div>
             </div>
         )
     }
